@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -17,11 +18,6 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 class MathUtilsTest {
 
 	MathUtils mathUtils;
-
-	@BeforeAll
-	void beforeAllInit() {
-		System.out.println("before all ... ");
-	}
 
 	@BeforeEach
 	void init() {
@@ -46,7 +42,7 @@ class MathUtilsTest {
 	@Test
 	@DisplayName("This is to test divide method")
 	void testDivide() {
-		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0), "Divide the numbers");
+		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0),() ->  "Divide the numbers");
 	}
 
 	@Test
@@ -56,7 +52,10 @@ class MathUtilsTest {
 	}
 
 	@Test
-	void testMultiply() {
+	@RepeatedTest(3)
+	void testMultiply(RepetitionInfo repeatitionInfo) {
+		if(repeatitionInfo.equals(2)){
 		assertAll(() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(3, mathUtils.multiply(3, 1)));
+	}
 	}
 }
