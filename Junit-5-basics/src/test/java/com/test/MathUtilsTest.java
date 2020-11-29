@@ -1,64 +1,62 @@
 package com.test;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assumptions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.condition.EnabledOnOs;
-import org.junit.jupiter.api.condition.OS;
 
 @TestInstance(Lifecycle.PER_CLASS)
+@DisplayName("While running MathUtilsClass")
 class MathUtilsTest {
 
 	MathUtils mathUtils;
-	
+
 	@BeforeAll
-	void beforeAllInit()
-	{
+	void beforeAllInit() {
 		System.out.println("before all ... ");
 	}
-	
+
 	@BeforeEach
-	void init()
-	{
+	void init() {
 		mathUtils = new MathUtils();
 	}
-	
-	@AfterEach
-	void cleanup()
-	{
-		System.out.println("cleaning up .... ");
-	}
-	
-	@Test
-	@Disabled
-	void test() {
-		int expected = 3;
-		int actual = mathUtils.add(1,2);
-		assertEquals(expected, actual,"add two numbers");
+
+	@Nested
+	@DisplayName("while running TestAddition class")
+	class TestAddition {
+		@Test
+		@DisplayName("The method to check addition of positive numbers")
+		void testPositive() {
+			assertEquals(3, mathUtils.add(1, 2), "should return right value");
+		}
+		@Test
+		@DisplayName("The method to check addition of negative numbers")
+		void testNegative() {
+			assertEquals(-3, mathUtils.add(-1, -2), "should return right value");
+		}
 	}
 
 	@Test
 	@DisplayName("This is to test divide method")
-	@EnabledOnOs(OS.LINUX)
-	void testDivide()
-	{
-		assertThrows(ArithmeticException.class,() -> mathUtils.divide(1, 0),"Divide the numbers");
+	void testDivide() {
+		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0), "Divide the numbers");
 	}
+
 	@Test
 	@DisplayName("This method is to test AreaOFCircle")
-	void testComputeAreaOfCircle()
-	{
-		boolean value=false;
-		assumeTrue(value);
-		assertEquals(314.1592653589793,mathUtils.computeAreaOfCircle(10),"Should return right area of circle");
+	void testComputeAreaOfCircle() {
+		assertEquals(314.1592653589793, mathUtils.computeAreaOfCircle(10), "Should return right area of circle");
+	}
+
+	@Test
+	void testMultiply() {
+		assertAll(() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(3, mathUtils.multiply(3, 1)));
 	}
 }
