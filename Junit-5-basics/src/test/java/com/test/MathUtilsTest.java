@@ -9,17 +9,26 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.api.TestReporter;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("While running MathUtilsClass")
 class MathUtilsTest {
 
 	MathUtils mathUtils;
+	TestInfo testInfo;
+	TestReporter testReporter;
 
 	@BeforeEach
-	void init() {
+	void init(	TestInfo testInfo,TestReporter testReporter) {
+		this.testInfo = testInfo;
+		this.testReporter = testReporter;
+		System.out.println(testInfo.getDisplayName() + "tagged with "+ testInfo.getTags());
+		System.out.println();
+		testReporter.publishEntry("Running" + testInfo.getDisplayName());
 		mathUtils = new MathUtils();
 	}
 
@@ -54,6 +63,7 @@ class MathUtilsTest {
 
 	@Test
 	@Tag("Math")
+	@DisplayName("This method is to test multiply")
 	void testMultiply() {
 		assertAll(() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(3, mathUtils.multiply(3, 1)));
 	}
