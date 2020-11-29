@@ -7,8 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.RepetitionInfo;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -26,6 +25,7 @@ class MathUtilsTest {
 
 	@Nested
 	@DisplayName("while running TestAddition class")
+	@Tag("Math")
 	class TestAddition {
 		@Test
 		@DisplayName("The method to check addition of positive numbers")
@@ -41,6 +41,7 @@ class MathUtilsTest {
 
 	@Test
 	@DisplayName("This is to test divide method")
+	@Tag("Math")
 	void testDivide() {
 		assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0),() ->  "Divide the numbers");
 	}
@@ -52,10 +53,9 @@ class MathUtilsTest {
 	}
 
 	@Test
-	@RepeatedTest(3)
-	void testMultiply(RepetitionInfo repeatitionInfo) {
-		if(repeatitionInfo.equals(2)){
+	@Tag("Math")
+	void testMultiply() {
 		assertAll(() -> assertEquals(4, mathUtils.multiply(2, 2)), () -> assertEquals(3, mathUtils.multiply(3, 1)));
 	}
-	}
+	
 }
